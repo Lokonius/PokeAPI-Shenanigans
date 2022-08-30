@@ -1,16 +1,16 @@
-from src import api
+import api
 import re
 
 
 def main():
 
-    data = api.call("generation", "1")
+    data = api.call("generation", "1")["1"]
     max_weight = 0
     fat_pokemon = ""
     count = 0
 
 
-    for x in data["1"]["pokemon_species"]:
+    for x in data["pokemon_species"]:
 
         species_args = re.search("v2/(?P<endpoint>(.*))/(?P<resource>(.*))/", x["url"])
         pokemon_species = api.call(species_args.group("endpoint"), species_args.group("resource"))[species_args.group("resource")]
@@ -18,7 +18,7 @@ def main():
         pokemon_args = re.search("v2/(?P<endpoint>(.*))/(?P<resource>(.*))/", pokemon_url)
         pokemon = api.call(pokemon_args.group("endpoint"), pokemon_args.group("resource"))[pokemon_args.group("resource")]
 
-        print(f"{count}/151")
+        print(f"{count}/150")
         count += 1
 
         if pokemon["weight"] > max_weight:
@@ -27,6 +27,8 @@ def main():
             fat_pokemon = pokemon["name"]
 
     print(f"{fat_pokemon} is the fattest pokemon with {max_weight}kg")
+
+    api.compare_types("dragon", "dragon")
 
 if __name__ == "__main__":
     main()

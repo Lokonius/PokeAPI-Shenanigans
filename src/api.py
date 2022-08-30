@@ -1,6 +1,6 @@
 import requests as re
 import cache
-
+import re as regex
 
 def call(endpoint, *resources):
 
@@ -25,5 +25,23 @@ def call(endpoint, *resources):
             data[resource] = response.json()
 
     return data
+
+
+def compare_types(type1: str, type2: str):
+
+    data = call("type", type1, type2)[type1]["damage_relations"]
+
+    for relation in data:
+        for i in data[relation]:
+            if i["name"] == type2:
+                info = regex.search("(?P<multiplier>(.*))_(.*)_(?P<direction>(.*))", relation)
+
+                if info.group("direction") == "to":
+                    print(f"{type1} deals {info.group('multiplier')} damage to {type2}")
+                if info.group("direction") == "from":
+                    print(f"{type1} receives {info.group('multiplier')} damage from {type2}")
+
+
+
 
 

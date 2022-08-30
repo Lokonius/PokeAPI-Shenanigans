@@ -3,7 +3,7 @@ import logging
 
 
 CACHE_PATH = "cache/cache"
-logging.basicConfig(filename="../logs/cache.log", encoding="utf-8", level=logging.INFO)
+logging.basicConfig(filename="logs/cache.log", encoding="utf-8", level=logging.INFO)
 
 
 def save_resource(key: str, data: dict):
